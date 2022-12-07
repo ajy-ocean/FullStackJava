@@ -1,0 +1,331 @@
+tell Diff of Framework and technlogy? Tailor Example
+
+What is FrameWork?
+Collection of jar file of java but not a programming language
+So many orm tools are there in those HIBERNATE is the best ORM to implements persistancy logic
+
+Why to go with hibernate frameworks?
+before this the industry people was used by the JDBC technolgy to communicate with database but using jdbc there is some problem
+
+1)The total jdbc code is comes under checked exception code (means we have to put all the under try catch or else we have to use throws keyword)
+
+2)we will get memory leakage problem
+(Here we r opening database connection and closing the connection)
+(Our application is gonna run on server in our app we opening the connection but we are not closing the connection but still server is running whenever the server run ur application also run internally even we are not present so it means that app is still pointing to the database and it is utilizing the resources because of this performance will be slow)
+
+3)Error Codes its gonna generate some error codes like ORA666 its a oracle related code and this also java programmer have to understand
+
+4)we need to implement some boiler plate code (means we need to write some duplicate code each time like connection Class.forname  preparedStatment assume three servlet are there one for update one for insert and one for delete in all three we have to write connection Class.forname  preparedStatment this will be burden on app or as well as developer and take more memory)
+
+In order to overcome that all the problem we have Entity Beans. Entity Beans are the one of the concept given by EJB technology
+
+But using Entity Beans there is some problems
+1)The total EJB components are Heavy weight(means we have to implement predefined API)
+(take example of servlet implem Servlet,GenericServlet,HttpServlet we have to override all met)
+(Like this we have to implement EntityBean interface and have to override all meth total 6 are there)
+
+2)Testing is more complex(means if we want to test any component we have to use any middleware server)
+like
+A.weblogic Server
+B.GlassFish Server
+C.JBoss
+D.JRun
+E.IBMSphere etc this all are application server webserver are not support EJB component. in Application server there is a some space called EJB container in that u can test ur EJB aplication
+take example of servlet using apache
+
+3)We need to develop more number of XML file
+Take example of SBI as customer increase performance become slow by moving diff server again we need to create XML
+
+In ORDER to overcome tha problem now we have ORM tools OBJECT RELATIONAL MAPPING
+we have so many tool like which work on ORM like
+Hibernate
+JPA (Java Persistancy API)
+Ibatis
+toplink ETC
+this all Hibernate is the best one to implement persistancy logic but in future it may be different
+
+How Hibernate work?
+we dont need to use external server hibernate internally provide container we can use to test our application after then we can transfer our app to server
+
+two type of framework are there
+1)Invasive framework (means it will force developer please implement or extend predifend API like Servlet or Entity Bean) Ex Struts
+2)Non-invasive framework (Ex Spring,Hibernate)
+ 
+Advantage of Hibernate>>>>>>>>>>>>>>>>>>>
+
+Its a framework by using this we can develop lightweight component as well as testing is very simple we no need to use any server by using this Hibernate related application
+
+1)Automatically framework is converting all the checked exception into unchecked(means no need to use try catch)
+2)We no need to open the connection and close the connection this all is takecare by framework
+3)Framework will takecare about Database related query
+We no need to generate SQL queries Like select * an all (Tell about dialect)
+
+4)No need to develop database table also like create table tablename hibernate framework will takecare of it
+
+5)JDBC does not support collection(means 10 emp are there we will put that all 10 obj in ArrayList add method and pass that obj to databases same like getAllBook method)
+
+6)in JDBC data is transfer in the form of text were as in hibernate data is transfer in the form of OBJ(Main Advantage)
+(means in database 2 type are there logical and physical initially our data will be in logical database once we comit it will transfer to physical)
+(suppose there are 3 row all row go 1 by 1 assume 1000 r there )
+(HBM will put that all row in one obj and then transfer)
+
+7)Caching technique doesn't supported by JDBC(Tell Example of Connection like DBUtility)
+8)JDBC does not support any relation like 1 to 1,Many to Many
+
+Requirement of creating Application in HBM
+a)POJO class is required
+b)Hibernate configuration file is required
+c)Hibernate Mapping file is required
+d)Client Application is required
+
+A) Use of POJO Class >>>>> Whenever we want to transfer any record from front end to back end application in the form of an object so for that we need POJO class
+
+B) Hibernate Mapping file >>>>> If we want to store a particular value into particular column between the Program and Database Mapping file is required
+<<<<<<  Syntax  >>>>>>>>
+File name == anyname.hbm.xml     Like  Shahnawaz.hbm.xml
+<DTD ....> we will see later
+
+<hibernate-mapping>
+	<class name="p1.Employee" table="emp1000">
+		<id name="id"> //Here id tag will assign primary key to table
+<generator class="assigned"></generator>//we have to set value manually to primary key 	like auto_increament
+		</id>
+		<property name="firstName"></property> // represent non primary key
+		<property name="lastName"></property>
+	</class>
+</hibernate-mapping>
+
+C) Hibernate configuration file >>>>>> (Heart of HBM) containing total 3 properties
+1)Connection properties:Use to create Connection Obj
+2)Hbernate properties:responsible to create database related query
+3)Mapping File:Handing over mapping file to if (Upper One)
+these 3 thing we are handing over to Hibernate configuration file
+
+<<<<<<  Syntax  >>>>>>>>
+File name == anyname.cfg.xml     Like  Shahnawaz.cfg.xml
+<DTD ....> Document type Defination   >>> This xml doesnt understand by java class and interface if we want to make them understand so we need to parse(convert) this xml code. Xml into java class or interface
+
+if we want to parse for that we need to place DTD first, whenever we are placing DTD, SAX(Simple API XML) or Dom(Document Object Model) parser will be activated
+
+This two are compiler it will convert all XML code into Java Classes or interface understandable format
+
+
+hbm2ddl.auto - 4 Values are there create, validate, update, create-drop
+
+create --- If the value is CREATE then the hibernate first drops the existing tables data and structure, then creates new tables and executes the operations on the newly created tables.The only problem with the value “create” is, we lose existing table data.
+
+validate --- If the value is validate then hibernate only validates the table structure- whether the table and columns have existed or not. If the table doesn’t exist then hibernate throws an exception.
+
+update --- If the value is update then, Hibernate checks for the table and columns. If a table doesn’t exist then it creates new tables and where as if a column doesn’t exist it creates new columns for it.
+
+create-drop --- If the value is create-drop then, Hibernate first checks for a table and do the necessary operations and finally drops the table after all the operations were completed.The value “create-drop” is given for unit testing the hibernate code.
+
+<hibernate-configuration> //root element
+	<session-factory> //sub element
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/shahnawaz</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password"></property>
+
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		.....reponsible to create particular database related query
+
+		<property name="hbm2ddl.auto">update</property>Create,Create-Drop,Update
+		<mapping resource="employee.hbm.xml"/>
+	</session-factory>
+</hibernate-configuration>
+--------------------------------------------------------------------------------------------------------
+Step to Create client Application 
+1)import the hibernate packages
+import org.hibernate.cfg.*;
+import org.hibernate.*;
+
+2)Take the class 
+3)Load Configuration file
+Configuration c = new Configuration();
+c.configure("pass configuration file name here"); //Hibernate Enrollment will start here
+
+Now Every Framework having  1 High Level object
+Struts Framework   ==   ActionServlet
+Spring Framework   ==   BeanFactory
+Hibernate Framework   ==   sessionFactory
+Means First object will be created and after this remain will be created
+
+4)Create the high level object
+	ServiceRegistry ssr = new StandardServiceRegistryBuilder().configure("Hibernate.cfg.xml").build();
+	MetadataSources mds = new MetadataSources(ssr);
+	Metadata md = mds.getMetadataBuilder().build();
+	SessionFactory sf = md.getSessionFactoryBuilder().build();..............
+
+...ServiceRegistry :: holds the services that Hibernate will need during bootstrapping and at runtime.
+...StandardServiceRegistryBuilder :: this is a Builder for standard ServiceRegistry instances.(with help of this we can get object of ServiceRegistry)
+...MetadataSources :: Entry point into working with sources of metadata information (mapping XML, annotations). Tell Hibernate about sources and then call buildMetadata(), or use getMetadataBuilder() to customize how sources are processed (naming strategies, etc).
+
+5)Getting the session object(Means we are getting connection object)
+Session s = f.openSession();
+
+6)Create the pojo class object
+	Student ss = new Student();
+	ss.setsName("SAM");
+	ss.setRoll(22);
+7)Transfer e object to front end to back end application
+Transaction t = s.beginTransaction();
+
+8)Save an object
+a) save() :: Save method stores an object into the database. It will Persist the given transient instance, first assigning a generated identifier. It returns the id of the entity created.
+b) SaveOrUpdate() :: Calls either save() or update() on the basis of identifier exists or not. e.g if identifier exists, update() will be called or else save() will be called.
+c) There are many more like persist(), merge(), saveOrUpdateCopy(). Almost all are same giving slight different functionality and usability.
+s.save(); 
+t.commit();
+
+9)Close session and factory object
+	s.close();
+	f.close();
+<<<<<<<<<<<<<<<   Show Example V 1.2    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Till Now what we have do we have load one record from front end to database now we will do vice-versa of that
+to do so Hibernate provided three method called load,get and byId this three method was given by the session interface 
+SYNTAX
+get(pojoclass.class file,id in the form of an object)
+get(Employee.class,new Integer(1));here 1 ID column value
+
+load(pojoclass.class file,id in the form of an object)
+load(Employee.class,new Integer(1));here 1 ID column value
+
+byId(pojoclass.class file).getReference(id in the form of an object)
+byId(Employee.class).getReference(new Integer(1))
+
+return type of this method are Object
+1) session.get() :: 
+	a) if record was not there then get method will throw NullPointer.
+	b) get method is EarlyLoading,Earlyloading means all record are inserted at a time Ex...two table are connected to eachother they both will come at a time
+	c) If fetch object from DB but not using it like printing n all, Still it will hit DB
+2) session.load() ::
+	a) if record was not there then load method will throw Objectnotfoundexception
+	b) Load method is lazyloading,lazyloading means First parent will come and then all child will come
+	c) If fetch object from DB but not using it like printing n all, Still it will not hit DB the object it will return called Proxy object if you not using it.
+3) session.byId() ::
+	a) This method is used to obtain a persistence object by it a primary identifier.
+	b) if record was not there then byId method will throw objectnotfoundexception
+
+bydefault lazy loading is supported
+We can identified what is lazy and early loading in Relation Concept
+*************************************************************************************
+MultiIdentifierLoadAccess interface of Hibernate 5 ( work as IN() of MySQL ) :: if we want to get multiple Ids by passing it in a IN().........
+		MultiIdentifierLoadAccess<Product> multi = s.byMultipleIds(Product.class);
+		List<Product> list = multi.multiLoad(1,2);
+		System.out.println(list);
+*************************************************************************************
+evict()
+To detach the object from session cache, hibernate provides evict() method. After detaching the object from the session, any change to object will not be persisted. The associated objects will also be detached if the association is mapped with cascade="evict".
+
+<<<<<<<<<<<<<<<   Show Example V 1.3    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Now we will see how to update a record in Table, for that we can use...
+1) update() or saveOrUpdate() about saveOrUpdate we already seen above
+
+<<<<<<<<<<<<<<<   Show Example V 1.4    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+now after this change get to load but second time the update query will not come because we are not modifying an object inside the cached memory if we r mpdifying then only it will effect to database otherwise it will not update it will not hit the database that is the power of the hibernate framework if it is JDBC level each and every time it will hit database
+***************************************************************************************************************
+Now we will see how to delete a record from Table for that we can use delete()....
+
+<<<<<<<<<<<<<<<   Show Example V X available in first word file after V 1.4 Ex   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+***************************************************************************************************************
+How to check Hibernate version in Eclipse
+
+System.out.println(org.hibernate.Version.getVersionString());
+---------------------------------------------------------------------------------------------------------------
+Difference-between-wrapper-and-primitive-types-in-hibernate
+
+IF we are taking primitive suppose int price; but i am not setting value with setter and  getter then it will insert 0 in database which is not good
+But
+If we take wrapper class suppose Integer price; and if i will not set any value to that then it will insert null into database which is != 0
+************************************************************************************************************
+Versioning Start Here..................................
+Now.... If we want to check how many time we are modifying our object(Means that particular row) so then we have to go for versioning concept
+Add int ver;   in pojo class
+<version name="ver" column="Version"></version>   in employee.hbm.xml
+public class Mainc {
+	public static void main(String[] args) {
+		Configuration c = new Configuration();
+		c.configure("hibernate.cfg.xml");
+		SessionFactory f = c.buildSessionFactory();
+		Session s = f.openSession();
+		Employee e = (Employee)s.load(Employee.class, new Integer(0));
+		//Employee e = new Employee();
+		e.setName("XXX6");
+		s.update(e);
+		Transaction t = s.beginTransaction();
+		//s.save(e);
+		t.commit();
+--------------------------------------------------------------------------------------------------------
+TimeStamp Concept..................................
+private Timestamp ts;  import java.sql.Timestamp;   in POJO Class
+<timestamp name="ts" column="Time"></timestamp>  remove that version line
+Main Class
+public class Mainc {
+	public static void main(String[] args) {
+		Configuration c = new Configuration();
+		c.configure("hibernate.cfg.xml");
+		SessionFactory f = c.buildSessionFactory();
+		Session s = f.openSession();
+		Employee e = (Employee)s.load(Employee.class, new Integer(0));
+		//Employee e = new Employee();
+		e.setName("XXX8");		
+		s.update(e);
+		s.save(e);
+		Transaction t = s.beginTransaction();
+		t.commit();
+----------------------------------------------------------------------------------------------------
+Life Cycle of Pojo Class Object
+Total Three State are there transient,persistent,detached
+
+1)transient:A new instance of a persistent class which is not associated with a Session, has no representation in the database and no identifier value is considered transient by Hibernate: Person person = new Person(); 
+person.setName("Foobar"); // person is in a transient state 
+Methods  >> save(),persist(),saveorupdate()
+
+2)persistent:A persistent instance has a representation in the database, an identifier value and is associated with a Session. You can make a transient instance persistent by associating it with a Session:
+Methods >> Close()
+	
+Long id = (Long) session.save(person);
+// person is now in a persistent state
+ 
+3)detached :  if we close the Hibernate Session, the persistent instance will become a detached instance:
+Methods >> Update(),merge()
+-----------------------------------------------------------------------------------------------------
+Hibernate Inheritance Mapping 
+There are three inheritance mapping strategies defined in the hibernate:
+1.Table Per Hierarchy
+2.Table Per Concrete class
+3.Table Per Subclass
+
+1.Table Per Hierarchy::In table per hierarchy mapping, single table is required to map the whole hierarchy, an extra column (known as discriminator column) is added to identify the class. But nullable values are stored in the table .
+<<<<<<<<<<<<<<<<<<<<<       Show Example V. 1.5       >>>>>>>>>>>>>>>>>>>>>>>
+Advantages of Single Table per class hierarchy
+•Simplest to implement.
+•Only one table to deal with.
+•Performance wise better than all strategies because no joins or sub-selects need to be performed.
+
+Disadvantages:
+•Most of the column of table are nullable so the NOT NULL constraint cannot be applied.
+•Tables are not normalized.
+
+2.Table Per Concrete class
+In this case every entity class has its own table i.e. table per class. The data for Vehicle is duplicated in both the tables.This strategy is not popular and also have been made optional in Java Persistence API.
+
+<<<<<<<<<<<<<<<<<<<<<       Show Example V. 1.6       >>>>>>>>>>>>>>>>>>>>>>>
+Advantage:
+•Possible to define NOT NULL constraints on the table
+
+Disadvantage:
+•Tables are not normalized.
+•To support polymorphism either container has to do multiple trips to database or use SQL UNION kind of feature.
+•We cannot use generation type identity So hibernate need get last Id from hibernate by calling select Max.
+
+3.Table Per Subclass
+In case of Table Per Subclass, subclass mapped tables are related to parent class mapped table by primary key and foreign key relationship.The <joined-subclass> element of class is used to map the child class with parent using the primary key and foreign key relation.
+<<<<<<<<<<<<<<<<<<<<<       Show Example V. 1.7       >>>>>>>>>>>>>>>>>>>>>>>
+Advantage:
+• Tables are normalized.
+• Able to define NOT NULL constraint.
+---------------------------------------------------------------------------------------------------------

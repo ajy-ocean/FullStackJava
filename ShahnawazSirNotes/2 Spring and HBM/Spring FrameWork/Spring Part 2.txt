@@ -1,0 +1,181 @@
+Why to go with Spring JDBC ?
+before this the industry people was used by the JDBC technolgy to communicate with database but using jdbc there is some problem
+
+1)The total jdbc code is comes under checked exception code (means we have to put all the under try catch or else we have to use throws keyword)
+
+2)we will get memory leakage problem
+(Here we r opening database connection and closing the connection)
+(Our application is gonna run on server in our app we opening the connection but we are not closing the connection but still server is running whenever the server run ur application also run internally even we are not present so it means that app is still pointing to the database and it is utilizing the resources because of this performance will be slow)
+
+3)we need to implement some boiler plate code (means we need to write some duplicate code each time like connection Class.forname  preparedStatment assume three servlet are there one for update one for insert and one for delete in all three we have to write connection Class.forname  preparedStatment this will be burden on app or as well as developer and take more memory)
+
+4)Error Codes its gonna generate some error codes like ORA666 its a oracle related code and this also java programmer have to understand
+
+In order to overcome that all the problem we have Entity Beans.Entity Beans are the one of the concept given by EJB technology
+
+But using Entity Beans there is some problems
+1)The total EJB components are Heavy weight(means we have to implement predefined API)
+(take example of servlet implem Servlet,GenericServlet,HttpServlet we have to override all met)
+(Like this we have to implement EntityBean interface and have to override all meth total 6 are there)
+
+2)Testing is more complex(means if we want to test any component we have to use any middleware server)
+like
+A.weblogic Server
+B.GlassFish Server
+C.JBoss
+D.JRun
+E.IBMSphere etc this all are appli server webserver are not support EJB component. in Application server there is a some space called EJB container in that u can test ur EJB aplication
+take example of servlet using apache
+
+3)We need to develop more number of XML file
+Take example of SBI as customer increase performance become slow by moving diff server again we need to create XML
+in order to overcome this problem we have to use Spring with JDBC Module
+Some of the project was implemented by Spring with JDBC module and some are Spring with ORM module depend on our requirement we have to use this module
+
+if we want to Communicate to database we required Connection object so how to get that Connection object we will see here
+if we want that Connection object we have to use one class called DriverManagerDataSource
+
+DriverManagerDataSource and BasicDatasource was implemented by javax.sql.DataSource(i)
+DriverManagerDataSource is available to the org.springframework.jdbc.datasource.*;
+BasicDatasource is available to the org.apache.commans.dbcp.*;
+
+If it is small scale Application we can use DriverManagerDataSource
+If it is large scale Application or production level we can use BasicDatasource
+
+Now how to configure that Spring.xml file we will see
+************************************************************************************************************
+Spring.Xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="one" class="org.springframework.jdbc.datasource.*">
+	<!-- or else you can use org.apache.commans.dbcp.* -->
+	<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+	<property name="URL" value="jdbc:mysql://localhost:3306/Shahnawaz"></property>
+	<property name="username" value="root"></property>
+	<property name="password" value=""></property>
+		
+	</bean>
+</beans>
+***********************************************************************************************************
+After that we will get Connection object now we can perform database operation if we want to perform database operation we have to use 2 centralized classes 
+1)JdbcTemplate(c) -->> org.springframework.jdbc.core.*
+2)StoredProcedure(c) -->> org.springframework.jdbc.object.*
+
+using this we can send SQL query from FrontEnd to BackEnd App
+
+This classes are called Template class the use of Template class taking the input and producing the output
+the internal working of that class is 
+1)Load the DriverClass
+2)Pass the URL
+3)Prepared the statement
+4)and finally sending the sql query from frontEnd App to BackEnd App
+
+Now JdbcTemplate class provided some predifined method using this method we can perform database related operation 
+1)execute()
+2)update()
+3)Query methods so many are there
+	a)queryForList()
+	b)queryForInt()
+	c)queryForLong()
+	d)queryForObject()
+	e)query()
+Like this so many method are there 
+so when to use which method 
+if we want to perform some DDL operation we can use execute() method  like for drop,rename,create,truncate etc
+if we want to perform some DML operation we can use update() method  like for insert,delete,update etc
+if we want to perform some DQL operation we can use Query methods method  like for select.
+
+now let see practically
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SHOW Ex 17 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+but whenever using this approach there is some drawback
+we have combine the business logic and persistency logic in a single file the problems are
+1)whenever we compile the persistency code we have to compile the business code also
+2)we are passing only static values
+
+in order to overcome this problems we have to use one design pattern called DAO
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SHOW Ex 18 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+But whenever we are selecting record like this by using queryForList() there is some drawback
+That QueryForList method will call internally ResultSet object that ResultSet will convert each row into Map and that Map will get converted into List object
+
+inorder to overcome this problem we have to use RowMapper Concept
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SHOW Ex 19 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Now that each row will get converted that ResultSet to Employee object
+
+Stored Procedure >>>>>>
+Whenever we are using above approach to communicate with database our application performance will get decrease 
+because we are directly heating to the database
+in order to overcome this problem we can use Stored Procedure and that Stored Procedure will communicate with database and fetch the records
+Suppose some employee has 5 column and on that we require only 2 we will pass the query and that will heat whole database for that 2 column whenever we are using this concept its not a good approach
+
+in order to overcome we have to use Stored Procedure for that we have to extends our class to StoredProcedure
+
+-------------------------UpDate Related to JBoss-----------------------------------------------------
+In a Jboss Server if we want to print logger or syso in Console
+
+go to Server tab --> Double click on our server --> Search for Open launch configuration
+
+in a program arguments tab paste at last
+
+-Dorg.jboss.as.logging.per-deployment=false
+------------------------------------------------Maven build-----------------------------------------------
+
+Run as Maven build after that we will get WAR location
+Copy the WAR from that location and paste it into deployment folder or our SERVER
+----------------------------------------------------------------------------------------------------------
+Before starting MVC let them know about Maven 
+
+Spring with MVC
+Model View Controller
+Model means Pojo,DAO,Business Object
+View Presentation layer HTML,JSP
+Controller Servlets
+
+Here we have only one controller called DispatcherServlet
+in Standalonne app we are using Resource res = new ClassPathResource("Spring.xml"); to handover of our Spring config file but in web application DispatcherServlet will takecare about that
+DispatcherServlet is one the controller that will load the spring config file
+
+so our config file we can save like this disp-servlet.xml and put that in a WEB-INF folder
+instead of disp any name we can take but servlet.xml is mandat
+and in web.xml file inside servlet name tag we have to pass disp and servlet class tag DispatcherServlet follow by package name based on that name DispatcherServlet will load Spring config file this is approach no 1
+
+Approach no 2: may be our config file name like this applicationContext.xml(default config file name)
+now we can load our config file by using listener class
+ <listener>
+  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+we have to configure like this in web.xml file inside web app tag whenever our config file name is applicationContext.xml
+
+Approach no 3: may be our config file name like this spConfig.xml or if we have multilple configuration file then we have to use
+
+<init-param>
+ <param-name>contextConfigLocation</param-name>//FixedName
+ <param-value>/WEB-INF/Spconfig.xml,someFolder/test.xml</param-value> for multiple file
+ </init-param>
+put this inside a servlet tag
+
+whenever we are configuring like this now the DispatcherServlet will load the config file our responsiblity we have to follow any one approach 
+now the DispatcherServlet will responsible to handover this file to container now the container is responsible to creating all the object and container is responsible to give all the object to in our Application
+
+Tomcat will support total 3 type of URL pattern in web.xml file
+1.Complete Character Sequence
+2./* or else only / Means All Request
+3.*.ext   like *.html
+
+/* is not good if we are using 2 framework in our app like Struts and Spring. then we have to configure 2 controller
+ActionServlet and DispatcherServlet
+
+*.ext is recommended for multiple MVC Framework if suppose my form action="some.sp" then we can use *.ext my URL pattern will be some.sp it will accept only those req which have extension is .sp
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SHOW Ex 21 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+now we will see RequestParam Annotation
+whenever we are using RequestParam we no need to use request.getParameter("t1")
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SHOW Ex 22 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Now we will see Spring Core Annotation
+
+Start with example
+
+Create new maven project with Quick Start means CoreJava 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SHOW Ex 23 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

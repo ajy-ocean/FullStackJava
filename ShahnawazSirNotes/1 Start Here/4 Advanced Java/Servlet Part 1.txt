@@ -1,0 +1,311 @@
+Advanced Java
+By using java how many type of application we can build?
+1.J2SE
+
+a)Standalone Application (Ex..Calcuator in our computer)<<< SWING >>>
+b)Client server Application (Ex..In Hostpital they use to maintain different machine that machine talk with each other like A machine can talk B and B machine can talk with A)<<< java.net package socket and server socket classes are there in that package >>> socket programming
+
+2.J2EE <<< Servlet, JSP,Filters,Tag Libraray
+a)Web Appication (Ex.. A Application which is deploy in a server Like FaceBook and different machine can talk them with help of browser)
+
+b)EnterPrise and Distributed Application(Ex..Two Application can talk with eachother which is build in same technolgy like java... IRCTC and Red Bus Example by using EJB we can build this type of Application)<<< Java EJB >>>
+
+c)InterOperable Application(Ex..Two Application with different technolgy want to talk with eachother they can do via XML or JSON format)
+
+Servlet Technolgy
+
+Through out the java servlet technolgy is most imp without servlet we cant servive in industry
+
+What is Servlet?
+Servlet are Server side programming that means without server servlet doesnt run why because servlet technogy was given by sun Microsystem and implementation was given by different vendor people like Apache software foundation,Bea,Microsoft ETC... different gave implemnetation in the form of server
+that means SUN is given only api but the actual implementation was given by various third party member thats why whenever we want to run servlet we need to depends on SERVER
+
+Servlet take end user input value and process the data and finally response is given back to server side to browser side that is functionality of servlet
+
+What is Server?
+server is nothing but providing services according to client requrement
+server dosnt providing inside the server we can deploy application that application is gonna provide services according to client requirements 
+
+Two tye of server are there
+1)Web Server:Providing Services only web application like Servlet,JSP,Struts
+tomcat(http Server)
+smtp Server
+ftp Server
+
+2)Application Server:its having two container web container and EJB container
+Weblogicserver
+Glass fish Server
+JBoss
+JRum
+
+SERVLET API
+two inportant packages
+javax.servlet.*;
+javax.servlet.http.*;
+this two packages have predefined class and interface using ths we can create web application
+
+for Example
+Servlet(i)  javax.servlet.*;
+ServletRequest(i)  javax.servlet.*;
+ServletResponse(i)  javax.servlet.*;
+RequestDispatcher(i)  javax.servlet.*;
+GenericServlet(ab)  javax.servlet.*;
+HttpServlet(ab)  javax.servlet.http.*;
+HttpServletRequest(i)  javax.servlet.http.*;
+HttpServletResponse(i)  javax.servlet.http.*;
+Filter(i)  javax.servlet.http.*;
+ServletConfig(i)  javax.servlet.*;
+
+Like this so many classses and interface are there using this we can create web application
+
+if you want to develop any servlet app you should follow standard steps
+1)Developed web application architecture
+2)Developed web Resources like javafile,Html files,CSS file ETC
+3)Developed deployment descriptor file(Mandatory)
+4)Compile the java files
+5)Deploy the web application into server
+6)Start the web server
+7)Open the browser and we can make a request
+8)Enter the input values and we can check(Testing Unit)
+these all are standard steps
+
+Show image of Architecture
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+HOW TO CREATE WEB.XML FILE?
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>MyProject</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+  </welcome-file-list>
+  
+  <servlet>
+  <servlet-name>one</servlet-name>
+  	<servlet-class>Lifesrv</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>one</servlet-name>
+  	<url-pattern>/life</url-pattern>
+  </servlet-mapping>
+</web-app>
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Servlet Interface(Contain LifeCycle Method total 5)these all are automatically called by container
+what is container?
+its a small java available insde the server, container is responsible to provide support of us servlet
+
+1)public void init(ServletConfig config)throws ServletException
+2)public void service(ServletRequest req,ServletRespnse res)throws ServletException,IOException
+3)public void destroy()
+4)public String getSevletInfo()
+5)public servletconfig getservletconfig()
+every servlet having 5 lifecycle method
+1st 3 are lifecycle
+4 and 5 are non lifecycle its mean it dosnt call by container
+
+What is Pupose of this?
+INIT >>>Its use if we want to execute any code only once we can put in INIT Mehtod Ex Connection related code
+Service >>>>client Businnes logic.. Ex we want to calculate gross salary of employee
+destroy >>>we want to destroy our servlet object
+getServletInfo >>>find info like what is version,author
+getServletConfig >>>if we want to find INIT-param param-name and param-value Servlet name
+ServletRequest inside service method :: use to take enduser input values by using request object
+ServletRespnse inside service method :: use send reponse back to server side to browser side
+
+we will check really this method or called or Not  Show examples
+http://localhost:8080/projectname/URI -- Unified resources identifier
+http://localhost:8080/projectname/URI--withHTML	
+evry url is not uri but every uri is url
+
+What is ServletConfig?
+If we want servlet name as well as INitParam name INitParam Value 
+
+What is getServletinfo?
+If we want servlet version who is author 
+
+GENERICS Servelt?
+But whenever we are implementing servlet interface we need to provide implementation of all method like init,service,destroy,getservletinfo,getservletConfig But providing implemntation of all methd there is no use for development side as well as client side also in order to overcome that problem SUN MICROSYSTEM as provided one more class called Generics Servlet it implement all lifecycle method except service method Service method is responsible to takcare of java programmer
+
+Generic servlet is also called as protocol independent servlet?
+Because it support all type of protocol like http,smtp,ftp etc... 
+
+DYNAMIC WEBPAGE?
+Whenever we are return the any code inside the servlet is called dyna but not static this page was produce by container called servlet container if we use only html and css is called static 
+
+Drawback using Generic Servelt?
+there is no security on the data it is not possible to provide security of the data because data is going to be visible in the address bar clearly in order to overcome that problem now servlet technology was given one more class called HttpServlet
+
+What is HttpServlet?
+by using HttpServlet we can provide the security of the data but this is protocol dependent servlet means it support only Http protocol
+Servlet(i) implements GenericServlet (ab) extends HttpServlet
+
+in HttpServlet?
+we can use service(),doGet(),doPost() by doPost() method only we can provide the security
+
+Servlet Commnication?
+in real time impementing a total business in a single servlet is not a good approach if we do so we need to search somethng into the entire code and also if we modified some small thing than we need to compile the entire servlet to overcome we can use different servlet and use Servlet Commnication to do program
+
+If we want to use Servlet Commnication?
+1)we have RequestDispatcher (i) two method are the if we want forward the same request to another servlet
+forward(req,res); we can forwarding the result from one servelt to another servelt also called Forward Mechanism
+include(req,res); we can include other result into current servelt also called include Mechanism
+2)response.sendredirect() It will always create a new request which call doGet method byDefault
+
+Store Data? Session Tracking.
+We can store data by two way
+1.Temporarily : Session Tracking Mechanism
+a) HttpSession Tracking Mechanism we can store data at server side
+b) Cookies we can store data at client side
+c) Hidden form fields we can store data at client side
+d) Url	Rewriting we can store data at client side
+
+2.Permanently : we have to use Database Like Oracle,Mysql,Postgrase etc.
+
+How to Auto Referesh a Servlet?
+response.setHeader("Refresh", "3");Will Always create a new Request which call doGet method of that Servlet
+
+first show Config and context
+
+JSP ( JavaServer Pages ) START HERE
+
+What type of technology JSP is?
+JSP is a Server side programming Language
+
+Show Example of Date wala by using JavaScript and JSP
+JavaScript Print system date whereas JSP print server date
+
+How Jsp internally work with java Code?
+JSP---get lodaded by JSP_Container then same jsp page get convert into jsp_servlet.java after converting it will compile that .java file into .class file(bytecode) all html code go under out.println();
+
+JSP(Java Server Pages) this is given by Sun MicroSystem
+By using JSP we can developed the dynamic webpages
+
+Why to go with JSP when ever we are using servlet technology there is some drawback
+Drawback are Servelet Technolgy:
+
+1)Whenever we are developing the servlet we have to configure that servlet in web.xml file assume that 100 servlet are there we have to configure that all
+
+2)Whenever we are modifying the servlet we have to stop the server and we need to recompile that servlet again and again we have to redploy the application and restart the server
+
+3)Servlet are allowed by the only java code but not Text and html code
+4)JSPs is faster then Servlet
+
+In order to overcome this problem we have to go with JSP
+
+In Jsp we can write any type of Data
+
+Advantages of JSP
+1) whenever we developing the jsp page we dont need to configue that in web.xml file
+2) whenever we are modifying the jsp we no need to stop the server and restart the server
+3) the jsp pages is allowed by the HTML code and Textual data and java code also
+4) whenever we are developing the jsp page we have to put that page in ROOT folder 
+
+Rules of JSP
+1) Whenever we are developing one jsp page must and should we need to save extension is .jsp
+2) After developing the jsp page must and should we need to place inside the application scope
+
+Show the architechture of JSP (Same as Previous One)
+
+JSP Elements 
+Why to go with JSP Element if we want to write any java code inside the JSP page must and should we have to use jsp element this all provided by Sun Microsystem without this element it is not possible to write java code inside the jsp pages without element we can write only HTML and TEXTUAL DATA
+
+JSP Elements are:
+Categarorised into 3 types:
+
+1)Scripting Elements
+a)Declarative Elements
+b)Scriplet Elements
+c)Expression element 
+===================================================================================
+1)Declarative Elements
+By using this declarative element we can declare some variable and method like instance variable and method
+Syntax....
+<%! declare instance variable and method %>
+Example <%! int count = 0;    void Method(){.....Logic....};   %>
+
+internally it will placed int count = 0 as instance variable in class
+<%! _jspInit(){ Logic } %> this code it will place into Init mthod internally while converting
+
+2)Scriplet Elements
+By using this element we can write some business logic in servlet where we write insde the service method otherwise doGet or doPost methods we use But of we want to write in JSP page we have to use scr element
+syntax....
+<% implement Business logic %>
+Example <% int a = integer.parseInt(request.getParameter("t1"));
+	   int b = integer.parseInt(request.getParameter("t2"));
+	   int result  = a+b; %>                                                                                
+this code will go into service method internally
+                                                                                                                
+3)Expression Elements
+By using expression element we can print the result <%=Expression%> at the end of the expression dont give semicolon ; otherwise it will throw parseException
+syntax...
+<%=Expression%>
+<%=a+b%>    or <%=result%> then it will display from server side to browser side
+===================================================================================
+2)Directive in JSP
+a)Page Directive
+b)Include Directive
+c)Taglib Directive
+
+3)Jsp action tags are dived into two types
+X) Jsp Predefined action tags    XX)Custom tags : we have to define this tag
+1)Farward action tag
+2)Include action tag
+3)Param action tag
+4)Use bean action tag
+5)Set property action tag
+6)get property action tag etc....
+
+
+...........Way to configure JSP in web.xml file...........
+
+<servlet>
+	<servlet-name>two</servlet-name>
+	<jsp-file>/Add.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>two</servlet-name>
+	<url-pattern>/add</url-pattern>
+</servlet-mapping>
+...........In above example jsp page inside web-content (/ is mandatory in JSP-FILE tag)...........
+
+now base on this elements we can contruct the application
+
+Where we place the us application in tomcat
+Tomcat >> webapp >> JSPApplication
+
+Implicit object : means automatically available in JSP page totally 9 are thre
+1)request   	javax.servelet.http.ServeletRequest
+2)response  	javax.servelet.http.ServeletResponse
+3)config    	javax.servelet.Serveletconfig
+4)Exception 	java.lang.Exception
+5)page	    	java.lang.object
+6)pageContext  	javax.servlet.jsp.jspwriter
+7)out	    	java.io.printwriter
+8)session   	javax.servlet.httpsession
+9)application   javax.servlet.ServletContext
+
+Show Example of This implicit Object
+
+Now directive elemnt is remain before that show Life cycle of JSP
+
+Three life cycle method are there 
+1)jspInit() call only Once
+2)jspDestroy() same as servlet
+3)_jspService() for Business Logic
+
+In Jsp and Servlet LifeCycle Phases JSP has 6 life cycle phases whereas 4 are same as servlet only 2 of them are new 
+
+Phases>>>
+1)Translation : JSP ENGINE TRANSLATE INTO SERVLET illaborate in details
+2)Compilation : Converting into .class
+3)Instantiation : Servlet Object is got created
+4)Initialization : jspInit Method called
+5)Servicing : _jspService Method Called
+6)Destruction : Destroy Method called
+
+Mehtods>>
+1)jspInit
+2)_jspService
+3)jspDestroy

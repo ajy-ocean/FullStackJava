@@ -1,0 +1,411 @@
+Why to go with Spring Framework?
+for business component development purpose actually in older days industrial people was use by the EJB for business component development purpose
+But whenever we are using EJB for business component development purpose there is some drawback
+
+1) The total EJB component are heavy weight component (means we have to implement a sessionBean, EntityBean or a MessageDrivenBean) without implementing that predefined API it is not possible to developed EJB component
+<<<<< Take Example of Servlet by overiding all 5 method >>>>>
+
+2)Testing is more complex (In order to test our application we required application server bcuz web server doesn't have EJB container)
+a)weblogic server
+b)Glass Fish Server
+c)Jboss
+d)jrun
+e)IBMSphere
+But whenever we are using this server if we change anything in our project we have to stop the server redeploy restart wala example so this would be headache for developer
+
+3)We need to developed more number of XML file (Show example of SBI moving project as customer increase same as Hibernate wala Example)
+
+In order to overcome this all problem now a day what we are using some small framework called Spring Framework
+Actually Rod John was the person who build so many project on EJB and he face a lots of problem in order to overcome he invent a framework called SPRING FRAMEWORK
+
+So Spring is an alternative of EJB technology this is not a total replacement the most popular framework now a day is Spring and Hibernate
+
+The study of Spring we will complete Module by Module
+in Spring version 1.X and 2.X they are given total 7 module
+
+1)Spring IOC module
+2)Spring with JDBC
+3)Spring with ORM
+4)Spring with J2EE
+5)Spring with AOP (Aspect oriented programming)
+6)Spring with MVC
+7)Spring with Web MVC
+Like this 7 Modules are there
+
+in Spring version 3.X and 4.X they are combine two module 6 and 7 finally they are given single module called Spring with WEBMVC
+
+Now
+1)Spring IOC module(Inversion of control)
+
+a)why to go with Spring IOC module?
+in 1.X and 2.X we called them as Spring IOC module and in 3.X and 4.X we called them as Dependency Injection Mechanism
+
+As a java programmer you just need to create the Business component but object creation is done by Spring framework
+Example :: Suppose 3 class are there Demo,Client1 and Client2 if we want to access the property of Demo class we have to create object of Demo in Client1 and Client2 both it will effect 2 memory bcuz 2 obj is got created assume 1000 r there it decrease the performance
+In order to overcome this problem we can handover this class object creation to Spring Framework and Spring will provide the obj to respective class. giving an objct to application is nothing but a Dependency Inject or IOC, internally Spring will create a SingleTon Class and it provide that singleton obj to all required class
+
+Suppose
+**********************************************************************
+package addition;
+
+public class WelcomeBean {
+
+	private String msg;
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+	
+	public void show(){
+		System.out.println(msg);
+	}
+}
+to call this show() method we required object but object creation responsilbilty we have given to Spring 
+-**********************************************************************
+so now we can handover this Business Component to Spring to do that we need to create 1 XML file 
+that XML file name is by default ApplicationContext.xml otherwise we can take our own name also like Spring.xml
+
+like in servlet we are handovering our Servlet class to container by configuring in web.xml same we have to do here also
+so throughout the Spring.xml file we have to remember 15 or 16 predifined XML tags using this XML we can handover our business component to container and then it will create object of our component
+
+now after creating Spring.XML first of all we have to place DTD why becuz (Tell about SAX <Simple Api XML> DOM <Document object model>) this two are compiler it will convert all XML code to container understandable format
+
+Take the Example of java code converted into bytecode by java compiler(JavaC)
+
+Now if we want to configure any bean we have to take root element called <beans></beans>
+and then sub-element called <bean></bean>
+EXAMPLE
+<beans>
+<bean id = "one" class = "p1.MyClass">   both are attributes
+<property name="msg"> Bean class instance variable name
+<value>Welcome to Java World</value>
+</property>
+</bean>
+</beans>
+
+now after configuring Spring.xml we can handover this file to container
+so first of all we need to load this xml file from harddisk to main memory
+for that 
+Spring FRMK was provided one interface called Resource this interface was implemented by totally two classes
+1)ClassPathResource
+2)FileSystemResource
+
+When to use which one?
+If our configuration file and Java resource is in same location on that time we can use ClassPathResource
+If our configuration file and Java resource is in different location on that time we can use FileSystemResource
+
+This Resource(i),ClassPathResource(c),FileSystemResource(c) all are available to the in which package
+org.springframework.core.io.*; this all provided by spring framework only like take technolgy called servlet. servlet was given by Sun MicroSystem but implementation was provided by third party people like Apache
+but framework is not like that everthing will be provided by framework only this is diff between technology and framework
+
+so by using this classes we can handover Spring.xml file to container
+Throughout the SpringFramework two container are there
+1)Basic Container
+2)Advanced Conatiner
+
+1)Basic Container
+BeanFactory(i) implemented by XmlBeanFactory(c)
+BeanFactory(i) Available in org.springframework.beans.factory.*;
+XmlBeanFactory(c) Available in org.springframework.beans.factory.xml.*;
+
+BeanFactory(i) implemented by XmlBeanFactory(c) totally we called them as Container and this container is responsible to create the object of our bean class
+
+Now if we want to use this appli we need to develop the client App for that we have to use this packages
+Now how to develop the Client App ?
+1)Create Class Client.java
+2)Import packages
+org.springframework.core.io.*;
+org.springframework.beans.factory.*;
+org.springframework.beans.factory.xml.*;
+
+3)Take Main Method
+
+Load the Spring Configuration file to do that
+4)Resource res = new ClassPathResource("Spring.xml");
+
+After loading we can handover this config file to Container
+5)BeanFactory f = new XmlBeanFactory(res);the purpose of this is use to store the collection of an object
+
+Now we need to create our Bean class Object for that BeanFactory was provide pre defined method called getBean();
+
+6)f.getBean("one");one is the ID which we have configure in Spring.xml file the purpose of this method is to get a particular object
+it return type is Object class so we can write Object o = f.getBean("one");
+
+7)WelcomeBean wb = (WelcomeBean)o;
+8)Now Call all the Method available of ur bean class
+	wb.show();
+
+So here who is creating the object of our class XmlBeanFactory is responsible for that 
+It will do WelcomeBean wb = WelcomeBean(); and it will give wb to our client app so giving an object to our client app is called IOC or DI
+--------------------------------------------------------------------------------------------
+Scope of Bean in Spring...
+1) singleton :: Scopes a single bean definition to a single object instance per Spring IoC container (default).
+2) prototype :: This scopes a single bean definition to have any number of object instances.
+3) request :: Scopes a single bean definition to the lifecycle of a single HTTP request; that is each and every HTTP request will have its own instance of a bean created off the back of a single bean definition. Only valid in the context of a web-aware Spring ApplicationContext.
+4) Session  :: It returns a single bean instance per HTTP session (User level session).
+5) GlobalSession :: It returns a single bean instance per global HTTP session. It is only valid in the context of a web-aware Spring ApplicationContext (Application level session).
+
+We need to use scope = "singleton" beside class attributes in bean tag.
+--------------------------------------------------------------------------------------------
+Now Dependency Injection is totally divided into 3 type
+1)Setter Injection
+2)Constructor Injection
+3)Interface Injection (Support only in Struts 2.X)
+
+Now in this app we have applied Setter Injection how we can say that After creating an object Container will internally call wb.SetMessage("Welcome to java World"); under that it will pass that value which we configure in Spring.XML
+
+After Calling the Setter method in our object and gives to our client app is called Setter Injection
+Now how container will come to know that it need to call Setter injection because of property tag which we have defined in Spring.XML 
+Now this Setter Injection is also divided into 3 type
+1)Dependency in the form of Primitive and String based value
+2)Dependency in the form of Objective
+3)Dependency in the form of Collections
+
+Examples..........
+public class MyDemo {
+
+	private int k;//
+	private String msg;//Dependency in the form of Primitive and String based value
+	private WelcomeBean wb;//Means Has RelationShip ,, Dependency in the form of Objective ,, also called Inner Bean
+	private List data;//Dependency in the form of Collections
+}
+-----------------------------------------------------------------------------------
+Now we wil see Dependency in the form of Objective
+public class MyDemo {
+	
+	Second s;// also called Inner Bean,Collaborator,dependency
+
+	public void setS(Second s) {
+		this.s = s;
+	}	
+	public void show(){
+		System.out.println("In MyDemo Class");
+	}
+ }
+class Second{
+	public void meth(){
+		System.out.println("In a Second Class");
+	}	
+}
+Spring.XML......
+<DTD>
+<beans>
+<bean id="one" class="p1.MyDemo">
+<property name="s">
+<bean class = "p1.Second">
+</bean>
+</beans>
+
+Client.java........
+Now whenever we call factory.getBean("one");
+It will internally create InnerBean object first and then outer bean
+Second s = new Second();
+MyDemo m = new MyDemo();
+and then it will internally call setter method
+
+Practical Start Here..............................
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 1 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Now Show Dependency in the form of Objective
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 2 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Drawbacks
+What if we are using same object in 2 diff class
+But whenever we are using Dependency in the form of Objective there is no seperate ID so we cannot access Inner Bean directly
+We need to configure again and again
+
+<bean id="one" class="p2.BeanOne">
+<property name="b">
+<bean class="p2.BeanTwo"></bean>
+</property>
+</bean>
+
+<bean id="two" class="p2.BeanThree">
+<property name="b">
+<bean class="p2.BeanTwo"></bean>
+</property>
+</bean>
+Lets see via Example is they realy pointing to different ref or not
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 3 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+So as prove on above example we are creating a single bean and multiple ref are going to be created that means we are making a wastage of memory
+
+So in order to overcome this problems Spring was provided one XML tag called ref XML tag	
+so ref is an XML element sometime we called them as element and sometime we called Attribute also
+so this ref element totally having 3 attribute
+1) <ref local = "idName"/> (Depcreted)
+2) <ref parent = "idName"/>
+3) <ref bean  = "idName"/>
+using this 3 attribute we can resolve that problem
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 4 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+so we can configure inner bean seperately
+so Now when to use local,parent or bean 
+LOCAL (Depcreted) :: If our inner bean is available within same XML file so the spring container will verify within the same XML file only otherwise it throw BeanIncreationException.
+PARENT :: the spring container will verify always other XML file but not same XML File we will see later about that
+BEAN :: It will search for both local as well as parent like same file and other XML file also
+
+NOW
+What is Tight Coupling and Loose Coupling?
+Tight Coupling :: whenever we are creating one class object into another class by using new operator then its called Tight Coupling
+Loose Coupling :: Means if we are modifying some component we no need to modify existing component
+
+In RealTime Tight Coupling is not a good approach we should use Loose Coupling
+
+so for Loose Coupling we have to follow the concept called POJI and POJO model
+POJI :: Plain old java interface
+POJO :: Plain old java Object
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 5 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+@Primary Annotation (Consider Example 5 Above)
+@Primary :: Suppose we have class Car,Motor and both are implemented with Vehicle Interface and Inside a Traveller class we are making reference of Vehicle and doing @Autowired (Consider Tight Coupling Vehicle Example)
+
+Now when we call Traveler class it will confused what object it should assign to Vehicle(Upcasting) so to resolve that issue we should mark our class with @Primary Annotation so if they found two and get Confused so it will assigned that Primary object to respective class
+In XML file we need to make primary="true" beside class tag
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+Now we will see the dependencies in the form of Collection
+as part of spring frmwk there are 4 type of Collection framework are there and this all are supported by Spring Frmwk otherthan that you have to manually create an object
+1)Set Collection
+2)List Collection
+3)Map Collection
+4)Properties Collection
+
+this all are available in java.util.*; package
+difference between set and list set are not allowed duplicate and unordered(natural order)
+difference between Map and Properties both are work on key and value pair but diff is we have to use value tag in map and no need of value tag in properties
+so 
+whenever we are using Collection so for 
+Set <set> element are req in Spring.xml
+List <list> element are req in Spring.xml
+Map <map> element and sub element <entry> are req in Spring.xml
+Properties <props> element and sub element <prop> are req in Spring.xml
+Example for set
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 6 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Same example for list just change <set> to <list> in spring.xml file duplicate are allowed in list
+Now take example on Map
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 7 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Same example for properties just change into Spring.xml file
+<beans  
+xmlns="http://www.springframework.org/schema/beans"  
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+xmlns:p="http://www.springframework.org/schema/p"  
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+<bean id = "one" class="p1.SampleBean">
+<property name="data">
+<props>
+<prop key="a">One</prop>
+<prop key="b">two</prop>
+<prop key="c">three</prop>
+<prop key="d">four</prop>
+</props>
+</property>
+</bean>
+</beans>
+*******************************************************************************************************
+So till now we have completed Setter Injection now we will see the Constructor Injection
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 8 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+now whenever we are using Constructor Injection there is some Drawback
+1)Whenever we have one const in our class there is no issue but if we have more than one that many time we have to configure in Spring.xml file
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 9 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+2)Multiple Refe is going to be created
+3)Circular dependencies problem(SHOW EX 10 to unserstand)
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 10 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+in order to overcome this problem we have to use setter injection in atleast one class
+just set setter in A class remove all contructor and make change in Spring.xml file
+
+<beans  
+xmlns="http://www.springframework.org/schema/beans"  
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+xmlns:p="http://www.springframework.org/schema/p"  
+xsi:schemaLocation="http://www.springframework.org/schema/beans  
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+
+<bean id="one" class="p1.A">
+<property name="b">
+<ref local="two"/>
+</property>
+</bean>
+
+<bean id="two" class="p1.B">
+<constructor-arg ref="one"></constructor-arg>
+</bean>
+<!-- This is called Circular dependencies problem because A class req B class obj
+and B class req A class obj -->
+</beans>
+
+again both of them are dependent on eachother but this time Spring will created MOCK object(default const get called) and it will get assigned to B class
+this is the ways to resolve Circular dependencies problem
+**************************************************************************************************************
+Bean AutoWiring Concept >> if we want to place directly inner bean to outer bean without configuring it for that we have to use Bean AutoWiring Concept it will get automatically placed bydefault its disabled we have to make it enabled,
+Now for that we have to use one attribute called autowire this autowire have totally 5 alleys
+1)byName
+2)bytype
+3)contructor
+4)autoDetect(Deprecated valid till Ver 2.5)
+5)default (act as byName) 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 11 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+if you take byName it will compare variable ref
+if you take byType it will compare the class Name
+if you take contructor it will compare the class Name and before injecting the obj it will check contructor is there or not
+autoDetect :: first it will act as a contructor if constructor is not there it will act as byType
+
+if we dont want to use autowire in spring.xml we can use annotations also we have to apply on setter method
+@Autowired it will act as bytype
+But what if we have multiple ref of inner bean it will get confused and give ambiguity problem to overcome that problem we have to use @Qualifier("s1"); and @Autowired both together will act as byName
+whenever we use @Autowired at const it will act as constructor
+
+but if we want to use this annotation basic container will not work we have use advanced container
+Basic container is XmlBeanFactory
+Advanced container is ApplicationContext(i)
+Difference between Basic and Advanced 
+1)Basic will not support all annotation whereas Advanced will support all annotation
+2)we have to load Spring config file seperately whereas in advanced it will load Spring config file auto
+
+this ApplicationContext is totally implemented by the totally three classes ClassPathXmlApplicationContext,FileSystemXmlApplicationContext,XmlWebApplicationContext
+
+if our config file is available to same location then we can use ClassPathXmlApplicationContext
+if our config file is available to Different location then we can use FileSystemXmlApplicationContext
+
+Now this XmlWebApplicationContext is container this is automatically activated by the our Spring controller called DispatcherServlet now the DispatcherServlet is loaded the Spring config file and DispatcherServlet is handovering the config file to this container and it will created an obj
+
+in order to activate annotation in our program we have to use one tag called <context:annotation-config/> then only annotation will get activated
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 12 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Dependency-check attribute is deprecated in spring 3.0. You can use constructor injection instead of setter injection to ensure the right properties are set or else create setter method with @Required annotation where ever you required dependency check in your class
+
+*********************** Replace this and add new topic called Spring validation *********************
+Bean Validations >> bydefault Spring container does not verifying that i am setting all the property or not without verifying it creating the object of our bean and submitting it to our client application
+if Bean Validations are not there bydefault Default value are gonna printed and that value are not understandable by end user so for that we have use Bean Validations
+ByDefault Bean Validations is disable we have to enable it by using one attribute called dependency-check
+this dependency-check having 4 type of value
+1)simple
+2)objects
+3)all
+4)no(default)
+
+simple >> it will check that we have setted the value of all primitive value
+objects >> it will check that we have setted all objects of another class  and collections object also but not primitive
+all >> it will check that we have setted all objects and as well as primitive or not
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 13 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+But whenever we are using Bean Validations there is some drawback
+suppose we have one class in which we have 1000 variable we have to configure that all in Spring.xml file 
+suppose 10 are there and only 5 variable are required to me for that we have to use @Required annotation on setter method of that particular variable
+@Required is an interface
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 14 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Life Cycle of Object(bean)
+1)Doesn't Exist mode
+2)bean instatiated
+3)bean initialized
+4)providing services
+5)destroy
+6)again back to 1
+
+if we want to follow this above step we have to implement 2 interface in our bean class
+1)InitializingBean
+2)DisposableBean
+
+After imolementing this we will get some life cycle method. life cycle method are those which get called automatically 
+After imolementing we will get 2 methods 1 from InitializingBean i'e public void afterPropertiesSet();
+and 2 from DisposableBean i'e public void destroy();
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 15 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+But whenever we are using this we have to implement some predifined API and our component will become heavy weight 
+So now without implement some predifined API we can use life cycle method for that we have use 2 Annotation 
+1)@PreDestry (from JSR)
+2)@PostConstruct  (from JSR)
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  SHOW EX 16 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
