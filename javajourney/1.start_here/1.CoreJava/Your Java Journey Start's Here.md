@@ -88,12 +88,12 @@ https://technology.blurtit.com/93426/why-is-java-called-object-oriented-programm
 12. Dynamic
 
 
-# <u>Simple</u>
+# 1. <u>Simple</u>
 - Java is a very simple programming language, it is easy to learn, read and write in Java. The syntax of Java is clean and easy to understand.
 - Here’s why java is simple programming language compared to other popular programming language:
 - Java syntax is similar to C/C++ so it is easier to learn java if one is familiar with C or C++. However java doesn’t use the complex features of C and C++ such as Pointers, go to statements, preprocessors/ header files, multiple inheritance, operator overloading etc.
 
-# <u>Platform Independent</u>
+# 2. <u>Platform Independent</u>
 - Java is platform-independent because it is different from other languages like C, C++, etc. which are compiled into platform-specific machines while Java is a write once, run-anywhere language. A platform is the hardware or software environment in which a program runs.
 - There are two types of platforms software-based and hardware-based. Java provides a software-based platform.
 - The Java platform differs from most other platforms in the sense that it is a software-based platform that runs on top of other hardware-based platforms. 
@@ -105,12 +105,86 @@ https://technology.blurtit.com/93426/why-is-java-called-object-oriented-programm
 - Each operating system has different JVM, however the output they produce after execution of bytecode is same across all operating systems. That is why we call java as platform independent language.
 - This bytecode is a platform-independent code because it can be run on multiple platforms, i.e., Write Once and Run Anywhere (WORA).
 
-### <u>IMP stuff</u>
+<u>IMP stuff</u>
 * Java is platform-independent but JVM is not i.e JVM is platform-dependent which means for a given operating system you have to install compatible JVM.
 
-# <u>Secure</u>
+# 3. <u>Secure</u>
 * Security is one of the biggest concern in programming language as these programming langauges are used to develop some of the critical and sensitive applications that needs to be secured such as banking applications. 
 * Java is more secure than C/C++ as it does not allow developers to create pointers, thus it becomes impossible to access a variable from outside if it’s not been initialized.
 * Java Programs run inside a virtual machine sandbox
 
 ![[platform-independent.png]]
+
+# 4. <u>Object-oriented</u>
+- Java is an object-oriented programming language. Everything in Java is an object. Object-oriented means we organize our software as a combination of different types of objects that incorporate both data and behavior.
+- Object-oriented programming (OOPs) is a methodology that simplifies software development and maintenance by providing some rules.
+
+#### <u>Basic concepts of OOPs are:</u>
+- Object
+- Class
+- Inheritance
+- Polymorphism
+- Abstraction
+- Encapsulation
+
+1.  **Abstraction**: Means hiding the implementation and showing the functionality to the user this we can achieve in java by using abstract keyword or else using concept of interface
+2.  **Encapsulation**: It’s a process of binding data and code together into a single unit by making data private and accessing it through public environment
+3.  **Polymorphism**: Poly means many and morph means form one object can perform multiple tasks as per argument we pass there are 2 type of polymorphism we have compile time and runtime.Method and Constructor Overloading is Compile time and Method Overriding is runtime
+4.  **Inheritance**: Inheritance is a mechanism in which a one class acquired all the property and behavior of another class there are 5 type of inheritance we have a) **Single** b) **Multilevel** c) **Hierarchical** d) **Multiple** e) **Hybrid**.Multiple and Hybrid not supported due to diamond problems but this we can achieve in java by using Interface.
+
+# 5. <u>Robust</u>
+- Robust means reliable. Java programming language is developed in a way that puts a lot of emphasis on early checking for possible errors, that’s why java compiler is able to detect errors that are not easy to detect in other programming languages.
+- The English mining of Robust is strong. Java is robust because:
+	1. It uses strong Memory management as well as Memory allocation.
+	2. There is a lack of pointers that avoids security problems.
+	3. Java provides automatic garbage collection which runs on the Java Virtual Machine to get rid of objects which are not being used by a Java application anymore.
+	4. There are exception handling and the type checking mechanism in Java. All these points make Java robust.
+
+# 6. <u>Distributed</u>
+- In simple words: The java programs can be distributed on more than one systems that are connected to each other using internet connection. Objects on one JVM (java virtual machine) can execute procedures on a remote JVM.
+- Using java programming language we can create distributed applications. RMI(Remote Method Invocation) and EJB(Enterprise Java Beans) are used for creating distributed applications in java.This feature of Java makes us able to access files by calling the methods from any machine on the internet.
+
+# 7. <u> Multi-threaded</u>
+- Java supports multithreading. Multithreading is a Java feature that allows concurrent execution of two or more parts of a program for maximum utilisation of CPU.
+- A thread is like a separate program, executing concurrently. We can write Java programs that deal with many tasks at once by defining multiple threads. The main advantage of multi-threading is that it doesn't occupy memory for each thread. It shares a common memory area. Threads are important for multi-media, Web applications, etc.
+
+# 8. <u>Dynamic</u>
+- Java is a dynamic language. It supports the dynamic loading of classes. It means classes are loaded on demand. It also supports functions from its native languages, i.e., C and C++.
+- Java also supports dynamic compilation and automatic memory management (garbage collection).
+- Since its a dynamic programming language. OOPs allows developers to add new classes to the existing packages, add new methods to the existing classes as well as modifying the method without changing the original method code by using the concept of method overriding.
+-  All these features make java dynamic. It also allows classes to be loaded on demand. It also supports functions from its native languages such as C and C++.
+
+# 9. <u>Performance</u>
+- Java is significantly faster than other traditional interpreted programming languages. Compiled java code which is known as byte code is like a machine code, that allows a faster execution. Java uses Just in Time compiler which can execute the code on demand, this allows to execute only the method that is being called, which makes it faster and efficient.
+- Also java uses the concept of multithreading, which allows concurrent execution of several parts of the code at the same time. This provides high performance.
+- It is still a little bit slower than a compiled language (e.g., C++). Java is an interpreted language that is why it is slower than compiled languages, e.g., C, C++, etc.
+
+# 10. <u>Portable</u>
+- As discussed earlier, java code that is written on one machine can run on another machine. The platform-independent byte code can be carried to any platform for execution that makes java code portable.
+
+# 11. <u>Architectural Neutral</u>
+- As we know Java is a platform-independent language, which means programs written and compiled on one machine can run on any other machine having different operating systems. Java follows the principle of <b>“Write once run anywhere“.</b>
+- Compiler converts the java file into byte code and this byte code is machine independent, java virtual machine can easily translate this byte code into machine-specific code. This makes java an architectural-neutral programming language.
+- Java is architecture neutral because there are no implementation dependent features, for example, the size of primitive types is fixed.
+- In C programming, int data type occupies 2 bytes of memory for 32-bit architecture and 4 bytes of memory for 64-bit architecture. However, it occupies 4 bytes of memory for both 32 and 64-bit architectures in Java.
+
+# 12. <u>Interpreted</u>
+- In programming languages, you have learned that they use either the compiler or interpreter, but Java programming language uses both a compiler and interpreter. Java programs are compiled to generate bytecode files then JVM interprets the bytecode file during execution. Along with this JVM also uses a JIT compiler (it increases the speed of execution).
+
+----
+-----
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
